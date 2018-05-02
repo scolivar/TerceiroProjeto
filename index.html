@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Terceiro Projeto</title>
+	<script src="Biblioteca_JQuery.3.3.1.js"></script>
+	<script>
+		//Função para esconder e exibir/trocar as opções de gênero.
+		$(document).ready(function(){
+			$('#sx').children('div').hide();
+			$('#sexo').on('change',function(){
+				var sexo = $(this).val();
+				$('#sx').children('div').hide();
+				$('#sx').children('#' + sexo).show();
+			});
+		});
+	</script>
+	<script>
+		//Função para calcular e mostrar
+		function calcular(){
+			var dh1 = document.getElementById("dh1").value;
+			var dh2 = document.getElementById("dh2").value;
+			var dh3 = document.getElementById("dh3").value;
+			var x1 = parseFloat(dh1) * parseFloat(dh2) * parseFloat(dh3);
+			var dm1 = document.getElementById("dm1").value;
+			var dm2 = document.getElementById("dm2").value;
+			var dm3 = document.getElementById("dm3").value;
+			var x2 = parseFloat(dm1) * parseFloat(dm2) * parseFloat(dm3);
+			var x3 = parseFloat(document.getElementById("idade").value);
+			var dens;
+			if (document.getElementById("sexo").value == "masc"){
+				dens = 1.10938 - 0.0008267 * x1 + 0.0000016 * x1 * 2 - 0.0002574 * x3;
+			}else if (document.getElementById("sexo").value == "femi"){
+				dens = 1.099421 - 0.0009929 * x2 + 0.0000023 * x2 * 2 - 0.0001392 * x3;
+			}
+			var pg = ((4.95 / dens) - 4.50) * 100;
+			var ga = (document.getElementById("peso").value * pg) / 100;
+			var mma = document.getElementById("peso").value - ga;
+			var mci;
+			if (document.getElementById("sexo").value == "masc"){
+				mci = mma / 0.85;
+			}else if (document.getElementById("sexo").value == "femi"){
+				mci = mma / 0.75;
+			}
+			var mce = mma - mci;
+
+			//Mostrar na tela o resultado:
+			document.getElementById("pg").innerHTML = "Percentual de Gordura (%): " + pg + ".";
+			document.getElementById("ga").innerHTML = "Gordura absoluta (kg): " + ga + ".";
+			document.getElementById("mma").innerHTML = "Massa magra absoluta (kg): " + mma + ".";
+			document.getElementById("mci").innerHTML = "Massa corporal ideal (kg): " + mci + ".";
+			document.getElementById("mce").innerHTML = "Massa corporal em excesso (kg): " + mce + ".";
+		}
+	</script>
+</head>
+<body>
+	<br>
+    <hr><hr>
+	<h1 align="center">APLICATIVO DE CÁLCULO DE COMPOSIÇÃO CORPORAL</h1>
+    <hr><hr>
+	<h1 align="center">Estimativa de Densidade Corporal Pelas Medidas das<br>
+	Dobras Cutâneas (Protocolo de 3 Dobras)</h1>
+    <hr><hr>
+    <h2>Informe os dados abaixo:</h2>
+    <hr>
+    <hr>
+	Nome:<br>
+	<input type="text" id="nome"><br><br>
+	Idade:<br>
+	<input type="text" id="idade" required> anos<br><br>
+	Peso:<br>
+	<input type="text" id="peso" required> Kg<br><br>
+	Sexo:<br>
+	<Select id="sexo">
+		<option value=""></option>
+		<option value="masc">Masculino</option>
+		<option value="femi">Feminino</option>
+	</Select><br><br>
+	<div id="sx">
+		<div id="masc">  <!-- A id desta div deve ser igual ao value do option para funcionar-->
+			Informe a medida das seguintes dobras:<br>
+			Dobra 1: Peitoral:<br>
+			<input type="text" id="dh1"> mm<br><br>
+			Dobra 2: Abdominal:<br>
+			<input type="text" id="dh2"> mm<br><br>
+			Dobra 3: Coxa:<br>
+			<input type="text" id="dh3"> mm<br><br>
+		</div>
+		<div id="femi">  <!-- A id desta div deve ser igual ao value do option para funcionar-->
+			Informe a medida das seguintes dobras:<br>
+			Dobra 1: Tríceps:<br>
+			<input type="text" id="dm1"> mm<br><br>
+			Dobra 2: Supra-Ilíaca:<br>
+			<input type="text" id="dm2"> mm<br><br>
+			Dobra 3: Coxa:<br>
+			<input type="text" id="dm3"> mm<br><br>
+		</div>
+		<button onclick="calcular()">Calcular</button>
+		<p id="pg">Percentual de Gordura (%):</p>
+		<p id="ga">Gordura absoluta (kg):</p>
+		<p id="mma">Massa magra absoluta (kg):</p>
+		<p id="mci">Massa corporal ideal (kg):</p>
+		<p id="mce">Massa corporal em excesso (kg):</p>
+	</div>
+</body>
+</html>
